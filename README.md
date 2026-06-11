@@ -33,6 +33,8 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 | [Tailwind CSS](https://tailwindcss.com/)              | Utility-first styling                |
 | [ESLint](https://eslint.org/)                         | Linting                              |
 | [Prettier](https://prettier.io/)                      | Code formatting                      |
+| [Husky](https://typicode.github.io/husky/)            | Git hooks                            |
+| [lint-staged](https://github.com/lint-staged/lint-staged) | Run linters on staged files      |
 | [Vitest](https://vitest.dev/)                         | Unit/component tests                 |
 | [Testing Library](https://testing-library.com/)       | React testing utilities              |
 | [Playwright](https://playwright.dev/)                 | End-to-end browser tests             |
@@ -52,6 +54,25 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 | `npm run test:run`     | Run Vitest once (used in CI)  |
 | `npm run test:e2e`     | Run Playwright e2e tests      |
 | `npm run test:e2e:ui`  | Run Playwright with UI mode   |
+
+## Git hooks
+
+Git hooks are installed automatically when you run `npm install` (via the `prepare` script).
+
+On every commit, a pre-commit hook runs [lint-staged](https://github.com/lint-staged/lint-staged) on staged files only:
+
+- **Prettier** formats `*.{js,jsx,ts,tsx,mjs,cjs,json,css,md}`
+- **ESLint** auto-fixes `*.{js,jsx,ts,tsx,mjs,cjs}` (runs after Prettier on those files)
+
+Fixed files are re-staged before the commit completes. If ESLint reports errors it cannot fix, the commit is blocked.
+
+To skip hooks for a single commit:
+
+```bash
+HUSKY=0 git commit -m "your message"
+```
+
+CI still runs full-repo `lint` and `format:check` as a safety net.
 
 ## Learn More
 
