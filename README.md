@@ -25,20 +25,20 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## Tooling
 
-| Tool                                                  | Purpose                              |
-| ----------------------------------------------------- | ------------------------------------ |
-| [Next.js](https://nextjs.org/)                        | React framework                      |
-| [React](https://react.dev/)                           | UI library                           |
-| [TypeScript](https://www.typescriptlang.org/)         | Static typing                        |
-| [Tailwind CSS](https://tailwindcss.com/)              | Utility-first styling                |
-| [ESLint](https://eslint.org/)                         | Linting                              |
-| [Prettier](https://prettier.io/)                      | Code formatting                      |
-| [Husky](https://typicode.github.io/husky/)            | Git hooks                            |
-| [lint-staged](https://github.com/lint-staged/lint-staged) | Run linters on staged files      |
-| [Vitest](https://vitest.dev/)                         | Unit/component tests                 |
-| [Testing Library](https://testing-library.com/)       | React testing utilities              |
-| [Playwright](https://playwright.dev/)                 | End-to-end browser tests             |
-| [GitHub Actions](https://github.com/features/actions) | CI (lint, format, tests, build, e2e) |
+| Tool                                                      | Purpose                              |
+| --------------------------------------------------------- | ------------------------------------ |
+| [Next.js](https://nextjs.org/)                            | React framework                      |
+| [React](https://react.dev/)                               | UI library                           |
+| [TypeScript](https://www.typescriptlang.org/)             | Static typing                        |
+| [Tailwind CSS](https://tailwindcss.com/)                  | Utility-first styling                |
+| [ESLint](https://eslint.org/)                             | Linting                              |
+| [Prettier](https://prettier.io/)                          | Code formatting                      |
+| [Husky](https://typicode.github.io/husky/)                | Git hooks                            |
+| [lint-staged](https://github.com/lint-staged/lint-staged) | Run linters on staged files          |
+| [Vitest](https://vitest.dev/)                             | Unit/component tests                 |
+| [Testing Library](https://testing-library.com/)           | React testing utilities              |
+| [Playwright](https://playwright.dev/)                     | End-to-end browser tests             |
+| [GitHub Actions](https://github.com/features/actions)     | CI (lint, format, tests, build, e2e) |
 
 ## Scripts
 
