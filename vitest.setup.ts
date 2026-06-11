@@ -7,8 +7,11 @@ afterEach(() => {
 })
 
 vi.mock('next/image', () => ({
-  default: (props: React.ComponentProps<'img'>) => {
-    const { priority, ...rest } = props
+  default: ({
+    priority,
+    ...rest
+  }: React.ComponentProps<'img'> & { priority?: boolean }) => {
+    void priority
     return React.createElement('img', rest)
   },
 }))
