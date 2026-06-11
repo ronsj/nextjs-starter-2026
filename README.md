@@ -2,12 +2,11 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) 25.9.0 (see `.nvmrc`)
+- [Node.js](https://nodejs.org/) (see `.nvmrc` for version)
 - [npm](https://www.npmjs.com/) (comes with Node)
 
 ```bash
-nvm use   # if using nvm
-npm ci
+nvm use # if using nvm
 ```
 
 ## Getting Started
@@ -26,33 +25,33 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## Tooling
 
-| Tool | Purpose | Command |
-|------|---------|---------|
-| [Next.js](https://nextjs.org/) 16 | React framework (App Router) | `npm run dev` / `npm run build` |
-| [React](https://react.dev/) 19 | UI library | — |
-| [TypeScript](https://www.typescriptlang.org/) 5 | Static typing | `tsc` (via Next.js build) |
-| [Tailwind CSS](https://tailwindcss.com/) 4 | Utility-first styling | — |
-| [ESLint](https://eslint.org/) 9 | Linting (`eslint-config-next`) | `npm run lint` |
-| [Prettier](https://prettier.io/) 3 | Code formatting | `npm run format` / `npm run format:check` |
-| [Vitest](https://vitest.dev/) 4 | Unit/component tests | `npm run test` / `npm run test:run` |
-| [Testing Library](https://testing-library.com/) | React testing utilities | — |
-| [Playwright](https://playwright.dev/) | End-to-end browser tests | `npm run test:e2e` / `npm run test:e2e:ui` |
-| [GitHub Actions](https://github.com/features/actions) | CI (lint, format, tests, build, e2e) | runs on push/PR to `main` |
+| Tool                                                  | Purpose                              |
+| ----------------------------------------------------- | ------------------------------------ |
+| [Next.js](https://nextjs.org/)                        | React framework                      |
+| [React](https://react.dev/)                           | UI library                           |
+| [TypeScript](https://www.typescriptlang.org/)         | Static typing                        |
+| [Tailwind CSS](https://tailwindcss.com/)              | Utility-first styling                |
+| [ESLint](https://eslint.org/)                         | Linting                              |
+| [Prettier](https://prettier.io/)                      | Code formatting                      |
+| [Vitest](https://vitest.dev/)                         | Unit/component tests                 |
+| [Testing Library](https://testing-library.com/)       | React testing utilities              |
+| [Playwright](https://playwright.dev/)                 | End-to-end browser tests             |
+| [GitHub Actions](https://github.com/features/actions) | CI (lint, format, tests, build, e2e) |
 
 ## Scripts
 
-| Script | Description |
-|--------|-------------|
-| `npm run dev` | Start the development server |
-| `npm run build` | Create a production build |
-| `npm run start` | Serve the production build |
-| `npm run lint` | Run ESLint |
-| `npm run format` | Format code with Prettier |
+| Script                 | Description                   |
+| ---------------------- | ----------------------------- |
+| `npm run dev`          | Start the development server  |
+| `npm run build`        | Create a production build     |
+| `npm run start`        | Serve the production build    |
+| `npm run lint`         | Run ESLint                    |
+| `npm run format`       | Format code with Prettier     |
 | `npm run format:check` | Check formatting (used in CI) |
-| `npm run test` | Run Vitest in watch mode |
-| `npm run test:run` | Run Vitest once (used in CI) |
-| `npm run test:e2e` | Run Playwright e2e tests |
-| `npm run test:e2e:ui` | Run Playwright with UI mode |
+| `npm run test`         | Run Vitest in watch mode      |
+| `npm run test:run`     | Run Vitest once (used in CI)  |
+| `npm run test:e2e`     | Run Playwright e2e tests      |
+| `npm run test:e2e:ui`  | Run Playwright with UI mode   |
 
 ## Learn More
 
