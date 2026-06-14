@@ -31,8 +31,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 | [React](https://react.dev/)                               | UI library                           |
 | [TypeScript](https://www.typescriptlang.org/)             | Static typing                        |
 | [Tailwind CSS](https://tailwindcss.com/)                  | Utility-first styling                |
-| [ESLint](https://eslint.org/)                             | Linting                              |
-| [Prettier](https://prettier.io/)                          | Code formatting                      |
+| [Biome](https://biomejs.dev/)                             | Linting and formatting               |
 | [Husky](https://typicode.github.io/husky/)                | Git hooks                            |
 | [lint-staged](https://github.com/lint-staged/lint-staged) | Run linters on staged files          |
 | [Vitest](https://vitest.dev/)                             | Unit/component tests                 |
@@ -47,9 +46,9 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 | `npm run dev`          | Start the development server  |
 | `npm run build`        | Create a production build     |
 | `npm run start`        | Serve the production build    |
-| `npm run lint`         | Run ESLint                    |
-| `npm run format`       | Format code with Prettier     |
-| `npm run format:check` | Check formatting (used in CI) |
+| `npm run lint`         | Run Biome (lint, format, imports) |
+| `npm run format`       | Format and fix with Biome         |
+| `npm run format:check` | Check with Biome (used in CI)     |
 | `npm run test`         | Run Vitest in watch mode      |
 | `npm run test:run`     | Run Vitest once (used in CI)  |
 | `npm run test:e2e`     | Run Playwright e2e tests      |
@@ -59,12 +58,12 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 Git hooks are installed automatically when you run `npm install` (via the `prepare` script).
 
-On every commit, a pre-commit hook runs [lint-staged](https://github.com/lint-staged/lint-staged) on staged files only:
+On every commit, a pre-commit hook runs [lint-staged](https://github.com/lint-staged/lint-staged) with [Biome](https://biomejs.dev/) on staged files:
 
-- **Prettier** formats `*.{js,jsx,ts,tsx,mjs,cjs,json,css,md}`
-- **ESLint** auto-fixes `*.{js,jsx,ts,tsx,mjs,cjs}` (runs after Prettier on those files)
+- Formats code, organizes imports, and applies safe lint fixes
+- Sorts Tailwind CSS classes via the `useSortedClasses` rule (nursery; requires `--unsafe` fixes)
 
-Fixed files are re-staged before the commit completes. If ESLint reports errors it cannot fix, the commit is blocked.
+Fixed files are re-staged before the commit completes. If Biome reports errors it cannot fix, the commit is blocked.
 
 To skip hooks for a single commit:
 
@@ -72,7 +71,7 @@ To skip hooks for a single commit:
 HUSKY=0 git commit -m "your message"
 ```
 
-CI still runs full-repo `lint` and `format:check` as a safety net.
+CI runs `biome ci` as a read-only safety net (lint, format, and imports in one pass).
 
 ## Learn More
 
