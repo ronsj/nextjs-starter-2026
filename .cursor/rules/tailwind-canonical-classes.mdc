@@ -6,35 +6,11 @@ alwaysApply: false
 
 # Tailwind canonical classes
 
-When writing or editing Tailwind classes, prefer **canonical utilities** from the project's design system over arbitrary values and legacy v3 aliases.
+When writing or editing Tailwind classes:
 
-## Prefer
+- Prefer theme tokens from the project's CSS (`@theme`, CSS variables) over hex and arbitrary colors
+- Prefer scale utilities (`mt-4`, `rounded-lg`, `border-black/10`) over arbitrary values (`mt-[16px]`, `border-black/[.08]`)
+- Use v4 canonical names (`shrink-0`, `bg-linear-to-r`) not legacy v3 aliases (`flex-shrink-0`, `bg-gradient-to-r`)
+- When touching non-canonical classes, convert them if a close match exists
 
-- Theme tokens defined in `app/globals.css` (`bg-background`, `text-foreground`, `font-sans`, etc.)
-- Standard scale utilities (`mt-4`, `rounded-lg`, `text-zinc-600`) over arbitrary values (`mt-[16px]`, `rounded-[8px]`)
-- v4 canonical names: `shrink-0` not `flex-shrink-0`, `grow` not `flex-grow`, `bg-linear-to-*` not `bg-gradient-to-*`
-
-## Avoid (unless no theme equivalent exists)
-
-- Arbitrary values: `w-[158px]`, `bg-[#383838]`, `text-[red]`
-- Arbitrary opacity: `border-black/[.08]` — use `border-black/10` or a theme color
-- Legacy v3 aliases that have v4 replacements
-
-## When arbitrary values are OK
-
-- One-off values with no close scale match **and** no theme token
-- Complex selectors that have no canonical variant (rare)
-
-## Examples from this project
-
-```tsx
-// ❌
-className="hover:bg-[#383838] md:w-[158px] border-black/[.08]"
-
-// ✅
-className="hover:bg-zinc-800 md:w-40 border-black/10"
-// or, for brand colors:
-className="bg-foreground text-background hover:bg-foreground/90"
-```
-
-When touching existing non-canonical classes, convert them to canonical equivalents where the design system provides a match.
+For alias tables and audit steps, read `.agents/skills/tailwind-canonical-classes/SKILL.md`.
