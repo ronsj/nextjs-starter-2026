@@ -1,0 +1,26 @@
+---
+description: Commit message format for this project
+alwaysApply: true
+---
+
+# Commit messages
+
+When creating git commits in this project:
+
+- Use a **subject line only** (no body unless the user asks for one)
+- Write in **imperative mood** ("Add", "Fix", "Remove", "Update")
+- **Do not** use Conventional Commits prefixes (`feat:`, `fix:`, `refactor(theme):`, etc.)
+- Keep subjects concise and specific to the change
+- Split work into small, logical commits when appropriate
+
+## Good
+
+- Add useTheme hook
+- Apply theme via inline script in root layout
+- Remove ThemeProvider from page tests
+
+## Bad
+
+- feat(theme): add useTheme hook
+- Added useTheme hook
+- fix: theme flash on load
