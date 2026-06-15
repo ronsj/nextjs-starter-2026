@@ -7,13 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check .",
-    "format": "biome check --write .",
+    "format": "biome check --write --unsafe .",
     "format:check": "biome check .",
     "test": "vitest",
     "test:run": "vitest run",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "prepare": "husky"
+  },
+  "lint-staged": {
+    "*": "biome check --write --unsafe --no-errors-on-unmatched --files-ignore-unknown=true"
   },
   "dependencies": {
     "next": "16.2.9",
@@ -36,8 +39,5 @@
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.8"
-  },
-  "lint-staged": {
-    "*": "biome check --write --unsafe --no-errors-on-unmatched --files-ignore-unknown=true"
   }
 }
