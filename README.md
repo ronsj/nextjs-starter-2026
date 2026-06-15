@@ -47,7 +47,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 | `npm run build`        | Create a production build     |
 | `npm run start`        | Serve the production build    |
 | `npm run lint`         | Run Biome (lint, format, imports) |
-| `npm run format`       | Format and fix with Biome         |
+| `npm run format`       | Format and fix with Biome (incl. Tailwind class sorting) |
 | `npm run format:check` | Check with Biome (used in CI)     |
 | `npm run test`         | Run Vitest in watch mode      |
 | `npm run test:run`     | Run Vitest once (used in CI)  |
