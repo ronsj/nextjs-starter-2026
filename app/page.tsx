@@ -29,7 +29,7 @@ export default function Home() {
         </div>
         <div className="flex flex-col gap-4 font-medium text-base sm:flex-row">
           <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-foreground/90 md:w-40 dark:hover:bg-zinc-300"
+            className="flex h-12 w-full items-center justify-center gap-2 whitespace-nowrap rounded-full bg-foreground px-5 text-background transition-colors hover:bg-foreground/90 md:w-auto dark:hover:bg-zinc-300"
             href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
             target="_blank"
             rel="noopener noreferrer"
