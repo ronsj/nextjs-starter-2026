@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 - [Node.js](https://nodejs.org/) (see `.nvmrc` for version)
 - [npm](https://www.npmjs.com/) (comes with Node)
-- [PostgreSQL](https://www.postgresql.org/) (local, Docker, or a hosted provider such as Railway, Neon, or Supabase)
+- [PostgreSQL](https://www.postgresql.org/) (local, Docker, or a hosted provider such as Railway, Neon, Supabase, etc.)
 
 ```bash
 nvm use # if using nvm
@@ -36,7 +36,7 @@ Set `DATABASE_URL` to your Postgres connection string and paste the generated va
 
 For **local Postgres**, no SSL configuration is needed.
 
-For **hosted providers** (Railway, Neon, Supabase), enable TLS in `.env`:
+For **hosted providers** (Railway, Neon, Supabase, etc.), enable TLS in `.env`:
 
 ```env
 DATABASE_SSL=true
@@ -187,22 +187,6 @@ npm audit
 
 CI runs `npm audit --audit-level=high` and fails on high-severity findings in the dependency tree.
 
-### Accepted dev-only advisories
-
-| Package   | Severity | Path                                      | Notes                                                                                                                                                                                                    |
-| --------- | -------- | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `esbuild` | moderate | `drizzle-kit` → `@esbuild-kit/core-utils` | Affects esbuild dev servers only. Do not expose `drizzle-kit` or other dev tooling to untrusted networks.                                                                                                |
-| `postcss` | moderate | `next` (bundled `8.4.31`)                 | Next.js 16.2.x bundles a vulnerable PostCSS version. Practical XSS risk is low for this app; track [Next.js releases](https://github.com/vercel/next.js/releases) for a stable patch (fixed in 16.3.0+). |
-
-The high-severity `undici` advisory (via `jsdom`, test-only) is resolved with `undici >= 7.28.0` (npm override + lockfile).
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
 ## Production checklist
 
 Before deploying, configure auth and database env vars in your hosting provider (never commit `.env`):
@@ -216,11 +200,3 @@ Before deploying, configure auth and database env vars in your hosting provider 
 6. **Email** — Replace `sendDevEmail` in `app/lib/auth.ts` with a production email provider (e.g. Resend) before deploying.
 
 Rate limiting uses the database in all environments so limits survive serverless cold starts.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
