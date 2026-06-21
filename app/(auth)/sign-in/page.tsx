@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { PasskeySignInForm } from '@/app/components/auth/passkey-sign-in-form'
+import { PasskeySignInForm } from '@/app/components/auth/PasskeySignInForm'
 
 export default function SignInPage() {
   return (

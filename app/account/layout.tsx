@@ -2,7 +2,7 @@ import { headers } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
-import { AccountTabs } from '@/app/components/account/account-tabs'
+import { AccountTabs } from '@/app/components/account/AccountTabs'
 import { auth } from '@/app/lib/auth'
 import { redirectIfUnverified } from '@/app/lib/require-verified-session'
 

@@ -1,0 +1,27 @@
+---
+description: PascalCase filenames for React components in app/components
+globs: app/components/**/*.{tsx,jsx}
+alwaysApply: false
+---
+
+# Component filenames
+
+When creating or editing React components under `app/components/`:
+
+- Use **PascalCase** for component filenames (e.g. `PasskeyManager.tsx`, `Greeting.tsx`)
+- Subdirectories (`auth/`, `account/`) stay lowercase — only the `.tsx`/`.jsx` basename is PascalCase
+- Import paths must match the filename (e.g. `@/app/components/auth/PasskeyManager`)
+
+## Good
+
+- `PasskeySignInForm.tsx`
+- `SignOutButton.tsx`
+- `Greeting.tsx`
+
+## Bad
+
+- `passkey-sign-in-form.tsx`
+- `sign-out-button.tsx`
+- `greeting.tsx`
+
+When renaming components, use `git mv`. On macOS, use a two-step rename for case-only changes (e.g. `greeting.tsx` → `Greeting.tmp.tsx` → `Greeting.tsx`) and update all import sites.

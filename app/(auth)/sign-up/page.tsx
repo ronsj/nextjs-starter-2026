@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { PasskeySignUpForm } from '@/app/components/auth/passkey-sign-up-form'
+import { PasskeySignUpForm } from '@/app/components/auth/PasskeySignUpForm'
 
 export default function SignUpPage() {
   return (

@@ -1,8 +1,8 @@
 import { headers } from 'next/headers'
 import Link from 'next/link'
 
-import { SignOutButton } from '@/app/components/auth/sign-out-button'
-import { Greeting } from '@/app/components/greeting'
+import { SignOutButton } from '@/app/components/auth/SignOutButton'
+import { Greeting } from '@/app/components/Greeting'
 import { auth } from '@/app/lib/auth'
 import { redirectIfUnverified } from '@/app/lib/require-verified-session'
 
