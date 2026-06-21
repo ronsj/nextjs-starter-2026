@@ -1,5 +1,6 @@
 import { relations } from 'drizzle-orm'
 import {
+  bigint,
   boolean,
   index,
   integer,
@@ -102,6 +103,13 @@ export const passkey = pgTable(
     index('passkey_credentialID_idx').on(table.credentialID),
   ]
 )
+
+export const rateLimit = pgTable('rate_limit', {
+  id: text('id').primaryKey(),
+  key: text('key').notNull().unique(),
+  count: integer('count').notNull(),
+  lastRequest: bigint('last_request', { mode: 'number' }).notNull(),
+})
 
 export const userRelations = relations(user, ({ many }) => ({
   sessions: many(session),

@@ -91,7 +91,7 @@ To wipe all auth data and recreate empty tables:
 npm run db:reset
 ```
 
-This drops the `user`, `session`, `account`, `verification`, and `passkey` tables, then runs `db:push` to recreate them.
+This drops the `user`, `session`, `account`, `verification`, `passkey`, and `rate_limit` tables, then runs `db:push` to recreate them.
 
 ### Schema changes
 
@@ -168,6 +168,18 @@ To learn more about Next.js, take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+## Production checklist
+
+Before deploying, configure auth and database env vars in your hosting provider (never commit `.env`):
+
+1. **Generate a secret** — `openssl rand -base64 32` and set `BETTER_AUTH_SECRET` (minimum 32 characters; the app throws on startup in production if missing or too short).
+2. **Set the public URL** — `BETTER_AUTH_URL` must be your HTTPS origin (e.g. `https://your-app.example.com`).
+3. **Trusted origins** — Set `BETTER_AUTH_TRUSTED_ORIGINS` to a comma-separated list of allowed frontend origins if they differ from `BETTER_AUTH_URL` (preview domains, mobile deep links, etc.). Defaults to `BETTER_AUTH_URL` when unset.
+4. **Database** — Set `DATABASE_URL` and enable SSL for hosted Postgres (`DATABASE_SSL=true`; see [Database SSL](#database-ssl)).
+5. **Schema** — Run `npm run db:push` after deploy or in your release pipeline so tables (including `rate_limit` for persistent rate limiting) exist.
+
+Rate limiting uses the database in all environments so limits survive serverless cold starts.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 

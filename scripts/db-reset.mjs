@@ -15,7 +15,7 @@ const pool = new pg.Pool(getPostgresPoolOptions(connectionString))
 
 try {
   await pool.query(`
-    DROP TABLE IF EXISTS passkey, session, account, verification, "user" CASCADE;
+    DROP TABLE IF EXISTS rate_limit, passkey, session, account, verification, "user" CASCADE;
   `)
   console.log('Dropped all auth tables.')
 } finally {
