@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 import { authClient } from '@/app/lib/auth-client'
-import { EXISTING_EMAIL_MESSAGE } from '@/app/lib/passkey-sign-up-user'
+import { EXISTING_EMAIL_MESSAGE } from '@/app/lib/passkey-sign-up-messages'
 
 export function PasskeySignUpForm() {
   const router = useRouter()
@@ -36,7 +36,7 @@ export function PasskeySignUpForm() {
     }
 
     if (data) {
-      router.push('/')
+      router.push(`/verify-email?email=${encodeURIComponent(email.trim())}`)
       router.refresh()
     }
   }

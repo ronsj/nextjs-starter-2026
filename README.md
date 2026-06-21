@@ -63,6 +63,19 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## Email verification (development)
+
+New accounts must verify their email before they can sign in. In development, verification emails are not sent over SMTP — they are logged to the server console instead.
+
+1. Sign up at `/sign-up` with your name, email, and a passkey.
+2. You are redirected to `/verify-email`. Check the terminal running `npm run dev` for a log line starting with `[dev email]`.
+3. Open the verification URL from that log (Better Auth serves it at `/api/auth/verify-email`).
+4. After verifying, sign in at `/sign-in` with your passkey.
+
+Unverified users cannot receive a session. Passkey sign-in is blocked until `emailVerified` is true.
+
+For production, replace the dev stub in `app/lib/email.ts` with a real email provider before deploying.
+
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Database
@@ -178,6 +191,8 @@ Before deploying, configure auth and database env vars in your hosting provider 
 3. **Trusted origins** — Set `BETTER_AUTH_TRUSTED_ORIGINS` to a comma-separated list of allowed frontend origins if they differ from `BETTER_AUTH_URL` (preview domains, mobile deep links, etc.). Defaults to `BETTER_AUTH_URL` when unset.
 4. **Database** — Set `DATABASE_URL` and enable SSL for hosted Postgres (`DATABASE_SSL=true`; see [Database SSL](#database-ssl)).
 5. **Schema** — Run `npm run db:push` after deploy or in your release pipeline so tables (including `rate_limit` for persistent rate limiting) exist.
+
+6. **Email** — Replace `sendDevEmail` in `app/lib/auth.ts` with a production email provider (e.g. Resend) before deploying.
 
 Rate limiting uses the database in all environments so limits survive serverless cold starts.
 

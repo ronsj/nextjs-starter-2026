@@ -1,10 +1,13 @@
 import { getAuthenticatorName, passkey } from '@better-auth/passkey'
+import { APIError } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
+import { sendVerificationEmailFn } from 'better-auth/api'
 import { betterAuth } from 'better-auth/minimal'
 import { nextCookies } from 'better-auth/next-js'
 
 import { db } from '@/app/db'
 import * as schema from '@/app/db/schema'
+import { sendDevEmail } from '@/app/lib/email'
 import { resolvePasskeySignUpUser } from '@/app/lib/passkey-sign-up-user'
 
 const authSecret = process.env.BETTER_AUTH_SECRET
@@ -40,6 +43,37 @@ export const auth = betterAuth({
     provider: 'pg',
     schema,
   }),
+  emailVerification: {
+    sendOnSignUp: true,
+    sendVerificationEmail: async ({ user, url }) => {
+      void sendDevEmail({
+        to: user.email,
+        subject: 'Verify your email',
+        text: `Verify: ${url}`,
+      })
+    },
+  },
+  databaseHooks: {
+    session: {
+      create: {
+        before: async (session, ctx) => {
+          if (!ctx) {
+            return
+          }
+
+          const user = await ctx.context.internalAdapter.findUserById(
+            session.userId
+          )
+
+          if (user && !user.emailVerified) {
+            throw new APIError('FORBIDDEN', {
+              message: 'Please verify your email before signing in.',
+            })
+          }
+        },
+      },
+    },
+  },
   rateLimit: {
     enabled: true,
     storage: 'database',
@@ -62,9 +96,19 @@ export const auth = betterAuth({
       registration: {
         requireSession: false,
         resolveUser: async ({ context }) => resolvePasskeySignUpUser(context),
-        afterVerification: async ({ verification }) => ({
-          name: getAuthenticatorName(verification.registrationInfo?.aaguid),
-        }),
+        afterVerification: async ({ ctx, verification, user }) => {
+          const dbUser = await ctx.context.internalAdapter.findUserById(user.id)
+
+          if (dbUser && !dbUser.emailVerified) {
+            await ctx.context.runInBackgroundOrAwait(
+              sendVerificationEmailFn(ctx, dbUser)
+            )
+          }
+
+          return {
+            name: getAuthenticatorName(verification.registrationInfo?.aaguid),
+          }
+        },
       },
     }),
   ],

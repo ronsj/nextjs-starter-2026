@@ -4,11 +4,14 @@ import Link from 'next/link'
 import { SignOutButton } from '@/app/components/auth/sign-out-button'
 import { Greeting } from '@/app/components/greeting'
 import { auth } from '@/app/lib/auth'
+import { redirectIfUnverified } from '@/app/lib/require-verified-session'
 
 export default async function Home() {
   const session = await auth.api.getSession({
     headers: await headers(),
   })
+
+  redirectIfUnverified(session)
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center bg-zinc-50 font-sans dark:bg-black">

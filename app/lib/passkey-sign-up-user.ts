@@ -3,6 +3,7 @@ import { eq } from 'drizzle-orm'
 
 import { db } from '@/app/db'
 import * as schema from '@/app/db/schema'
+import { EXISTING_EMAIL_MESSAGE } from '@/app/lib/passkey-sign-up-messages'
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -11,8 +12,7 @@ type SignUpContext = {
   name: string
 }
 
-export const EXISTING_EMAIL_MESSAGE =
-  'An account with this email already exists. Sign in to add a passkey.'
+export { EXISTING_EMAIL_MESSAGE } from '@/app/lib/passkey-sign-up-messages'
 
 function parseSignUpContext(context?: string | null): SignUpContext {
   if (!context) {

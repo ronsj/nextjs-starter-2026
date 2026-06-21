@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation'
 
 import { AccountTabs } from '@/app/components/account/account-tabs'
 import { auth } from '@/app/lib/auth'
+import { redirectIfUnverified } from '@/app/lib/require-verified-session'
 
 export default async function AccountLayout({
   children,
@@ -17,6 +18,8 @@ export default async function AccountLayout({
   if (!session) {
     redirect('/sign-in')
   }
+
+  redirectIfUnverified(session)
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center bg-zinc-50 px-6 py-16 font-sans dark:bg-black">
