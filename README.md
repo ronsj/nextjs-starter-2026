@@ -31,7 +31,8 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 | [React](https://react.dev/)                               | UI library                           |
 | [TypeScript](https://www.typescriptlang.org/)             | Static typing                        |
 | [Tailwind CSS](https://tailwindcss.com/)                  | Utility-first styling                |
-| [Biome](https://biomejs.dev/)                             | Linting and formatting               |
+| [ESLint](https://eslint.org/)                             | Linting                              |
+| [Prettier](https://prettier.io/)                          | Code formatting                      |
 | [Husky](https://typicode.github.io/husky/)                | Git hooks                            |
 | [lint-staged](https://github.com/lint-staged/lint-staged) | Run linters on staged files          |
 | [Vitest](https://vitest.dev/)                             | Unit/component tests                 |
@@ -41,29 +42,30 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## Scripts
 
-| Script                 | Description                   |
-| ---------------------- | ----------------------------- |
-| `npm run dev`          | Start the development server  |
-| `npm run build`        | Create a production build     |
-| `npm run start`        | Serve the production build    |
-| `npm run lint`         | Run Biome (lint, format, imports) |
-| `npm run format`       | Format and fix with Biome (incl. Tailwind class sorting) |
-| `npm run format:check` | Check with Biome (used in CI)     |
-| `npm run test`         | Run Vitest in watch mode      |
-| `npm run test:run`     | Run Vitest once (used in CI)  |
-| `npm run test:e2e`     | Run Playwright e2e tests      |
-| `npm run test:e2e:ui`  | Run Playwright with UI mode   |
+| Script                 | Description                                         |
+| ---------------------- | --------------------------------------------------- |
+| `npm run dev`          | Start the development server                        |
+| `npm run build`        | Create a production build                           |
+| `npm run start`        | Serve the production build                          |
+| `npm run lint`         | Run ESLint                                          |
+| `npm run lint:fix`     | Run ESLint with auto-fix                            |
+| `npm run format`       | Format with Prettier (incl. Tailwind class sorting) |
+| `npm run format:check` | Check formatting with Prettier (used in CI)         |
+| `npm run test`         | Run Vitest in watch mode                            |
+| `npm run test:run`     | Run Vitest once (used in CI)                        |
+| `npm run test:e2e`     | Run Playwright e2e tests                            |
+| `npm run test:e2e:ui`  | Run Playwright with UI mode                         |
 
 ## Git hooks
 
 Git hooks are installed automatically when you run `npm install` (via the `prepare` script).
 
-On every commit, a pre-commit hook runs [lint-staged](https://github.com/lint-staged/lint-staged) with [Biome](https://biomejs.dev/) on staged files:
+On every commit, a pre-commit hook runs [lint-staged](https://github.com/lint-staged/lint-staged) with [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) on staged files:
 
-- Formats code, organizes imports, and applies safe lint fixes
-- Sorts Tailwind CSS classes via the `useSortedClasses` rule (nursery; requires `--unsafe` fixes)
+- Applies ESLint fixes (including import sorting)
+- Formats code with Prettier and sorts Tailwind CSS classes via `prettier-plugin-tailwindcss`
 
-Fixed files are re-staged before the commit completes. If Biome reports errors it cannot fix, the commit is blocked.
+Fixed files are re-staged before the commit completes. If ESLint reports errors it cannot fix, the commit is blocked.
 
 To skip hooks for a single commit:
 
@@ -71,7 +73,7 @@ To skip hooks for a single commit:
 HUSKY=0 git commit -m "your message"
 ```
 
-CI runs `biome ci` as a read-only safety net (lint, format, and imports in one pass).
+CI runs `eslint` and `prettier --check` as read-only safety nets.
 
 ## Learn More
 
