@@ -1,20 +1,24 @@
 'use client'
 
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 import { authClient } from '@/app/lib/auth-client'
+import { EXISTING_EMAIL_MESSAGE } from '@/app/lib/passkey-sign-up-user'
 
 export function PasskeySignUpForm() {
   const router = useRouter()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [emailTaken, setEmailTaken] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setError(null)
+    setEmailTaken(false)
     setIsLoading(true)
 
     const { data, error: signUpError } = await authClient.passkey.addPasskey({
@@ -25,7 +29,9 @@ export function PasskeySignUpForm() {
     setIsLoading(false)
 
     if (signUpError) {
-      setError(signUpError.message ?? 'Registration failed')
+      const message = signUpError.message ?? 'Registration failed'
+      setError(message)
+      setEmailTaken(message === EXISTING_EMAIL_MESSAGE)
       return
     }
 
@@ -66,7 +72,20 @@ export function PasskeySignUpForm() {
       </label>
 
       {error ? (
-        <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+        <div className="flex flex-col gap-2">
+          <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+          {emailTaken ? (
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">
+              <Link
+                href="/sign-in"
+                className="font-medium text-zinc-900 dark:text-zinc-50"
+              >
+                Sign in
+              </Link>{' '}
+              to add a passkey to your existing account.
+            </p>
+          ) : null}
+        </div>
       ) : null}
 
       <button
