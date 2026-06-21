@@ -3,8 +3,8 @@ import { expect, test } from 'vitest'
 
 import Page from '../app/page'
 
-test('home page renders heading', () => {
-  render(<Page />)
+test('home page renders guest heading', async () => {
+  render(await Page())
 
   expect(
     screen.getByRole('heading', {
@@ -14,8 +14,13 @@ test('home page renders heading', () => {
   ).toBeDefined()
 })
 
-test('home page renders documentation link', () => {
-  render(<Page />)
+test('home page renders sign-in and sign-up links', async () => {
+  render(await Page())
 
-  expect(screen.getByRole('link', { name: 'Documentation' })).toBeDefined()
+  expect(
+    screen.getByRole('link', { name: 'Sign in' }).getAttribute('href')
+  ).toBe('/sign-in')
+  expect(
+    screen.getByRole('link', { name: 'Sign up' }).getAttribute('href')
+  ).toBe('/sign-up')
 })

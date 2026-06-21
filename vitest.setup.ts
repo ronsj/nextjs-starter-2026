@@ -6,6 +6,18 @@ afterEach(() => {
   cleanup()
 })
 
+vi.mock('next/headers', () => ({
+  headers: vi.fn().mockResolvedValue(new Headers()),
+}))
+
+vi.mock('@/app/lib/auth', () => ({
+  auth: {
+    api: {
+      getSession: vi.fn().mockResolvedValue(null),
+    },
+  },
+}))
+
 vi.mock('next/image', () => ({
   default: ({
     priority,

@@ -10,12 +10,15 @@ test('home page has a heading', async ({ page }) => {
   ).toBeVisible()
 })
 
-test('documentation link opens Next.js docs', async ({ page }) => {
+test('guest sees sign-in and sign-up links', async ({ page }) => {
   await page.goto('/')
 
-  const documentationLink = page.getByRole('link', { name: 'Documentation' })
-  await expect(documentationLink).toHaveAttribute(
+  await expect(page.getByRole('link', { name: 'Sign in' })).toHaveAttribute(
     'href',
-    'https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app'
+    '/sign-in'
+  )
+  await expect(page.getByRole('link', { name: 'Sign up' })).toHaveAttribute(
+    'href',
+    '/sign-up'
   )
 })

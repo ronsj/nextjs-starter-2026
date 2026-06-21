@@ -4,6 +4,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 - [Node.js](https://nodejs.org/) (see `.nvmrc` for version)
 - [npm](https://www.npmjs.com/) (comes with Node)
+- [PostgreSQL](https://www.postgresql.org/) (local, Docker, or a hosted provider such as Railway, Neon, or Supabase)
 
 ```bash
 nvm use # if using nvm
@@ -11,7 +12,33 @@ nvm use # if using nvm
 
 ## Getting Started
 
-Run the development server:
+Install dependencies:
+
+```bash
+npm install
+```
+
+Copy the example env file and fill in your values:
+
+```bash
+cp .env.example .env
+```
+
+Generate an auth secret:
+
+```bash
+openssl rand -base64 32
+```
+
+Set `DATABASE_URL` to your Postgres connection string and paste the generated value into `BETTER_AUTH_SECRET`.
+
+Create the database schema (empty tables, no seed data):
+
+```bash
+npm run db:push
+```
+
+Start the development server:
 
 ```bash
 npm run dev
@@ -22,6 +49,45 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Database
+
+This starter kit uses [Drizzle ORM](https://orm.drizzle.team/) with a **push-based** workflow. There are no committed SQL migrations — each install syncs `app/db/schema.ts` to its own database.
+
+| Script                  | Description                                                                           |
+| ----------------------- | ------------------------------------------------------------------------------------- |
+| `npm run db:push`       | Sync the schema to your database (first-time setup or after schema changes)           |
+| `npm run db:reset`      | Drop all auth tables and re-sync the schema (wipes all users, sessions, and passkeys) |
+| `npm run auth:generate` | Regenerate `app/db/schema.ts` from Better Auth config (after adding plugins)          |
+
+### First-time setup
+
+Point `DATABASE_URL` at an empty Postgres database, then run:
+
+```bash
+npm run db:push
+```
+
+### Reset the database
+
+To wipe all auth data and recreate empty tables:
+
+```bash
+npm run db:reset
+```
+
+This drops the `user`, `session`, `account`, `verification`, and `passkey` tables, then runs `db:push` to recreate them.
+
+### Schema changes
+
+After changing auth plugins in `app/lib/auth.ts`:
+
+```bash
+npm run auth:generate
+npm run db:push
+```
+
+If you need a full wipe instead of an incremental sync, use `npm run db:reset`.
 
 ## Tooling
 
@@ -39,22 +105,28 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 | [Testing Library](https://testing-library.com/)           | React testing utilities              |
 | [Playwright](https://playwright.dev/)                     | End-to-end browser tests             |
 | [GitHub Actions](https://github.com/features/actions)     | CI (lint, format, tests, build, e2e) |
+| [Better Auth](https://www.better-auth.com/)               | Authentication (passkeys)            |
+| [Drizzle ORM](https://orm.drizzle.team/)                  | Database schema and queries          |
+| [PostgreSQL](https://www.postgresql.org/)                 | Database                             |
 
 ## Scripts
 
-| Script                 | Description                                         |
-| ---------------------- | --------------------------------------------------- |
-| `npm run dev`          | Start the development server                        |
-| `npm run build`        | Create a production build                           |
-| `npm run start`        | Serve the production build                          |
-| `npm run lint`         | Run ESLint                                          |
-| `npm run lint:fix`     | Run ESLint with auto-fix                            |
-| `npm run format`       | Format with Prettier (incl. Tailwind class sorting) |
-| `npm run format:check` | Check formatting with Prettier (used in CI)         |
-| `npm run test`         | Run Vitest in watch mode                            |
-| `npm run test:run`     | Run Vitest once (used in CI)                        |
-| `npm run test:e2e`     | Run Playwright e2e tests                            |
-| `npm run test:e2e:ui`  | Run Playwright with UI mode                         |
+| Script                  | Description                                         |
+| ----------------------- | --------------------------------------------------- |
+| `npm run dev`           | Start the development server                        |
+| `npm run build`         | Create a production build                           |
+| `npm run start`         | Serve the production build                          |
+| `npm run lint`          | Run ESLint                                          |
+| `npm run lint:fix`      | Run ESLint with auto-fix                            |
+| `npm run format`        | Format with Prettier (incl. Tailwind class sorting) |
+| `npm run format:check`  | Check formatting with Prettier (used in CI)         |
+| `npm run test`          | Run Vitest in watch mode                            |
+| `npm run test:run`      | Run Vitest once (used in CI)                        |
+| `npm run test:e2e`      | Run Playwright e2e tests                            |
+| `npm run test:e2e:ui`   | Run Playwright with UI mode                         |
+| `npm run db:push`       | Sync database schema to Postgres                    |
+| `npm run db:reset`      | Drop auth tables and re-sync schema                 |
+| `npm run auth:generate` | Regenerate Drizzle schema from Better Auth config   |
 
 ## Git hooks
 
