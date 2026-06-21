@@ -175,6 +175,27 @@ HUSKY=0 git commit -m "your message"
 
 CI runs `eslint` and `prettier --check` as read-only safety nets.
 
+## Security
+
+### Auditing dependencies
+
+Run a local audit:
+
+```bash
+npm audit
+```
+
+CI runs `npm audit --audit-level=high` and fails on high-severity findings in the dependency tree.
+
+### Accepted dev-only advisories
+
+| Package   | Severity | Path                                      | Notes                                                                                                                                                                                                    |
+| --------- | -------- | ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `esbuild` | moderate | `drizzle-kit` → `@esbuild-kit/core-utils` | Affects esbuild dev servers only. Do not expose `drizzle-kit` or other dev tooling to untrusted networks.                                                                                                |
+| `postcss` | moderate | `next` (bundled `8.4.31`)                 | Next.js 16.2.x bundles a vulnerable PostCSS version. Practical XSS risk is low for this app; track [Next.js releases](https://github.com/vercel/next.js/releases) for a stable patch (fixed in 16.3.0+). |
+
+The high-severity `undici` advisory (via `jsdom`, test-only) is resolved with `undici >= 7.28.0` (npm override + lockfile).
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
