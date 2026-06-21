@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const protectedPaths = ['/account']
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const sessionCookie = getSessionCookie(request)
   const isProtected = protectedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path)
