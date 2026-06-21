@@ -10,6 +10,11 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  DATABASE_URL: postgresql://postgres:postgres@localhost:5432/ci
+  BETTER_AUTH_SECRET: ci-better-auth-secret-minimum-32-chars
+  BETTER_AUTH_URL: http://localhost:3000
+
 jobs:
   quality:
     runs-on: ubuntu-latest
