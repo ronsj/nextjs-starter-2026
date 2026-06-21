@@ -23,7 +23,7 @@ export function SignOutButton() {
       type="button"
       onClick={handleSignOut}
       disabled={isSigningOut}
-      className="bg-foreground text-background hover:bg-foreground/90 flex h-12 w-full items-center justify-center gap-2 rounded-full px-5 whitespace-nowrap transition-colors disabled:opacity-60 md:w-auto dark:hover:bg-zinc-300"
+      className="bg-foreground text-background hover:bg-foreground/90 flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-full px-5 whitespace-nowrap transition-colors disabled:opacity-60 md:w-auto dark:hover:bg-zinc-300"
     >
       {isSigningOut ? 'Signing out…' : 'Sign out'}
     </button>
