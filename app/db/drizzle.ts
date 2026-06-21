@@ -13,13 +13,18 @@ function createPool() {
     throw new Error('DATABASE_URL is not set')
   }
 
-  const isRemotePostgres =
-    connectionString.includes('railway') ||
-    connectionString.includes('rlwy.net')
+  const sslEnabled =
+    process.env.DATABASE_SSL === 'true' ||
+    connectionString.includes('sslmode=require')
 
   return new Pool({
     connectionString,
-    ...(isRemotePostgres && { ssl: { rejectUnauthorized: false } }),
+    ...(sslEnabled && {
+      ssl: {
+        rejectUnauthorized:
+          process.env.DATABASE_SSL_REJECT_UNAUTHORIZED !== 'false',
+      },
+    }),
   })
 }
 

@@ -32,6 +32,21 @@ openssl rand -base64 32
 
 Set `DATABASE_URL` to your Postgres connection string and paste the generated value into `BETTER_AUTH_SECRET`.
 
+### Database SSL
+
+For **local Postgres**, no SSL configuration is needed.
+
+For **hosted providers** (Railway, Neon, Supabase), enable TLS in `.env`:
+
+```env
+DATABASE_SSL=true
+DATABASE_SSL_REJECT_UNAUTHORIZED=true
+```
+
+SSL is also enabled automatically when `DATABASE_URL` contains `sslmode=require`.
+
+If certificate validation fails, do not disable `DATABASE_SSL_REJECT_UNAUTHORIZED`. Instead, add your provider's CA certificate or use their documented connection string with proper SSL parameters.
+
 Create the database schema (empty tables, no seed data):
 
 ```bash
