@@ -38,7 +38,10 @@ export default async function VerifyEmailPage({
             </code>{' '}
             and open the verification URL from there.
           </p>
-          <p>After verifying, sign in with your passkey on the sign-in page.</p>
+          <p>
+            After verifying, sign in with your email and password on the sign-in
+            page.
+          </p>
         </div>
 
         <p className="mt-6 text-center text-sm text-zinc-600 dark:text-zinc-400">

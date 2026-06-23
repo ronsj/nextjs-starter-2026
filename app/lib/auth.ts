@@ -1,14 +1,11 @@
-import { getAuthenticatorName, passkey } from '@better-auth/passkey'
 import { APIError } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
-import { sendVerificationEmailFn } from 'better-auth/api'
 import { betterAuth } from 'better-auth/minimal'
 import { nextCookies } from 'better-auth/next-js'
 
 import { db } from '@/app/db'
 import * as schema from '@/app/db/schema'
 import { sendDevEmail } from '@/app/lib/email'
-import { resolvePasskeySignUpUser } from '@/app/lib/passkey-sign-up-user'
 
 const authSecret = process.env.BETTER_AUTH_SECRET
 const isProduction = process.env.NODE_ENV === 'production'
@@ -45,11 +42,25 @@ export const auth = betterAuth({
   }),
   emailVerification: {
     sendOnSignUp: true,
+    sendOnSignIn: true,
     sendVerificationEmail: async ({ user, url }) => {
       void sendDevEmail({
         to: user.email,
         subject: 'Verify your email',
         text: `Verify: ${url}`,
+      })
+    },
+  },
+  emailAndPassword: {
+    enabled: true,
+    requireEmailVerification: true,
+    autoSignIn: false,
+    revokeSessionsOnPasswordReset: true,
+    sendResetPassword: async ({ user, url }) => {
+      void sendDevEmail({
+        to: user.email,
+        subject: 'Reset your password',
+        text: `Reset: ${url}`,
       })
     },
   },
@@ -78,8 +89,9 @@ export const auth = betterAuth({
     enabled: true,
     storage: 'database',
     customRules: {
-      '/sign-in/passkey': { window: 60, max: 10 },
-      '/passkey/*': { window: 60, max: 10 },
+      '/sign-in/email': { window: 10, max: 3 },
+      '/sign-up/email': { window: 10, max: 3 },
+      '/request-password-reset': { window: 60, max: 3 },
     },
   },
   session: {
@@ -90,26 +102,5 @@ export const auth = betterAuth({
   advanced: {
     useSecureCookies: isProduction,
   },
-  plugins: [
-    nextCookies(),
-    passkey({
-      registration: {
-        requireSession: false,
-        resolveUser: async ({ context }) => resolvePasskeySignUpUser(context),
-        afterVerification: async ({ ctx, verification, user }) => {
-          const dbUser = await ctx.context.internalAdapter.findUserById(user.id)
-
-          if (dbUser && !dbUser.emailVerified) {
-            await ctx.context.runInBackgroundOrAwait(
-              sendVerificationEmailFn(ctx, dbUser)
-            )
-          }
-
-          return {
-            name: getAuthenticatorName(verification.registrationInfo?.aaguid),
-          }
-        },
-      },
-    }),
-  ],
+  plugins: [nextCookies()],
 })

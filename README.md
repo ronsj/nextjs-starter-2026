@@ -65,14 +65,20 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 ## Email verification (development)
 
-New accounts must verify their email before they can sign in. In development, verification emails are not sent over SMTP — they are logged to the server console instead.
+New accounts must verify their email before they can sign in. In development, verification and password-reset emails are not sent over SMTP — they are logged to the server console instead.
 
-1. Sign up at `/sign-up` with your name, email, and a passkey.
+1. Sign up at `/sign-up` with your name, email, and password.
 2. You are redirected to `/verify-email`. Check the terminal running `npm run dev` for a log line starting with `[dev email]`.
 3. Open the verification URL from that log (Better Auth serves it at `/api/auth/verify-email`).
-4. After verifying, sign in at `/sign-in` with your passkey.
+4. After verifying, sign in at `/sign-in` with your email and password.
 
-Unverified users cannot receive a session. Passkey sign-in is blocked until `emailVerified` is true.
+Unverified users cannot receive a session. Email/password sign-in is blocked until `emailVerified` is true.
+
+### Forgot password (development)
+
+1. Go to `/forgot-password` and enter your email.
+2. Check the server console for a `[dev email]` log with subject "Reset your password".
+3. Open the reset URL from that log to set a new password at `/reset-password`.
 
 For production, replace the dev stub in `app/lib/email.ts` with a real email provider before deploying.
 
@@ -82,11 +88,11 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 This starter kit uses [Drizzle ORM](https://orm.drizzle.team/) with a **push-based** workflow. There are no committed SQL migrations — each install syncs `app/db/schema.ts` to its own database.
 
-| Script                  | Description                                                                           |
-| ----------------------- | ------------------------------------------------------------------------------------- |
-| `npm run db:push`       | Sync the schema to your database (first-time setup or after schema changes)           |
-| `npm run db:reset`      | Drop all auth tables and re-sync the schema (wipes all users, sessions, and passkeys) |
-| `npm run auth:generate` | Regenerate `app/db/schema.ts` from Better Auth config (after adding plugins)          |
+| Script                  | Description                                                                  |
+| ----------------------- | ---------------------------------------------------------------------------- |
+| `npm run db:push`       | Sync the schema to your database (first-time setup or after schema changes)  |
+| `npm run db:reset`      | Drop all auth tables and re-sync the schema (wipes all users and sessions)   |
+| `npm run auth:generate` | Regenerate `app/db/schema.ts` from Better Auth config (after adding plugins) |
 
 ### First-time setup
 
@@ -104,7 +110,7 @@ To wipe all auth data and recreate empty tables:
 npm run db:reset
 ```
 
-This drops the `user`, `session`, `account`, `verification`, `passkey`, and `rate_limit` tables, then runs `db:push` to recreate them.
+This drops the `user`, `session`, `account`, `verification`, and `rate_limit` tables, then runs `db:push` to recreate them.
 
 ### Schema changes
 
@@ -133,7 +139,7 @@ If you need a full wipe instead of an incremental sync, use `npm run db:reset`.
 | [Testing Library](https://testing-library.com/)           | React testing utilities              |
 | [Playwright](https://playwright.dev/)                     | End-to-end browser tests             |
 | [GitHub Actions](https://github.com/features/actions)     | CI (lint, format, tests, build, e2e) |
-| [Better Auth](https://www.better-auth.com/)               | Authentication (passkeys)            |
+| [Better Auth](https://www.better-auth.com/)               | Authentication (email/password)      |
 | [Drizzle ORM](https://orm.drizzle.team/)                  | Database schema and queries          |
 | [PostgreSQL](https://www.postgresql.org/)                 | Database                             |
 

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { PasskeySignInForm } from '@/app/components/auth/PasskeySignInForm'
+import { EmailSignInForm } from '@/app/components/auth/EmailSignInForm'
 
 export default function SignInPage() {
   return (
@@ -11,11 +11,20 @@ export default function SignInPage() {
             Sign in
           </h1>
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            Use your passkey to sign in to your account.
+            Sign in with your email and password.
           </p>
         </div>
 
-        <PasskeySignInForm />
+        <EmailSignInForm />
+
+        <p className="mt-4 text-center text-sm text-zinc-600 dark:text-zinc-400">
+          <Link
+            href="/forgot-password"
+            className="font-medium text-zinc-900 dark:text-zinc-50"
+          >
+            Forgot password?
+          </Link>
+        </p>
 
         <p className="mt-6 text-center text-sm text-zinc-600 dark:text-zinc-400">
           Don&apos;t have an account?{' '}

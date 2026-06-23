@@ -2,7 +2,6 @@ import { headers } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
-import { AccountTabs } from '@/app/components/account/AccountTabs'
 import { auth } from '@/app/lib/auth'
 import { redirectIfUnverified } from '@/app/lib/require-verified-session'
 
@@ -43,10 +42,6 @@ export default async function AccountLayout({
           <p className="text-sm text-zinc-600 dark:text-zinc-400">
             {session.user.email}
           </p>
-        </div>
-
-        <div className="mb-6">
-          <AccountTabs />
         </div>
 
         {children}
