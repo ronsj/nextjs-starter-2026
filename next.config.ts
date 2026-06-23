@@ -2,11 +2,26 @@ import type { NextConfig } from 'next'
 
 const contentSecurityPolicy = [
   "default-src 'self'",
+  // Only self-hosted images
   "img-src 'self'",
-  "script-src 'self' https://www.google-analytics.com",
-  "font-src 'self' https://fonts.googleapis.com",
+  // Add external analytics script origins here
+  "script-src 'self'",
+  // Add fonts.googleapis.com here if needed
+  "font-src 'self'",
+  // Better Auth client hits /api/auth/* on same origin
+  "connect-src 'self'",
+  // Stops <base href> injection
+  "object-src 'self'",
+  // Stops form submissions to external sites
+  "form-action 'self'",
+  // Same as X-Frame-Options: DENY
   "frame-ancestors 'none'",
-].join('; ')
+]
+
+if (process.env.NODE_ENV === 'production') {
+  // Pairs with 'Strict-Transport-Security' header in production
+  contentSecurityPolicy.push('upgrade-insecure-requests')
+}
 
 const permissionsPolicy = [
   'camera=()',
@@ -14,7 +29,7 @@ const permissionsPolicy = [
   'geolocation=()',
   'payment=()',
   'browsing-topics=()',
-].join(', ')
+]
 
 const securityHeaders = [
   {
@@ -23,11 +38,11 @@ const securityHeaders = [
   },
   {
     key: 'Content-Security-Policy',
-    value: contentSecurityPolicy,
+    value: contentSecurityPolicy.join('; '),
   },
   {
     key: 'Permissions-Policy',
-    value: permissionsPolicy,
+    value: permissionsPolicy.join(', '),
   },
   {
     key: 'Referrer-Policy',
