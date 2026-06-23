@@ -1,28 +1,5 @@
 import type { NextConfig } from 'next'
 
-const contentSecurityPolicy = [
-  "default-src 'self'",
-  // Only self-hosted images
-  "img-src 'self'",
-  // Add external analytics script origins here
-  "script-src 'self'",
-  // Add fonts.googleapis.com here if needed
-  "font-src 'self'",
-  // Better Auth client hits /api/auth/* on same origin
-  "connect-src 'self'",
-  // Stops <base href> injection
-  "object-src 'self'",
-  // Stops form submissions to external sites
-  "form-action 'self'",
-  // Same as X-Frame-Options: DENY
-  "frame-ancestors 'none'",
-]
-
-if (process.env.NODE_ENV === 'production') {
-  // Pairs with 'Strict-Transport-Security' header in production
-  contentSecurityPolicy.push('upgrade-insecure-requests')
-}
-
 const permissionsPolicy = [
   'camera=()',
   'microphone=()',
@@ -35,10 +12,6 @@ const securityHeaders = [
   {
     key: 'X-Content-Type-Options',
     value: 'nosniff',
-  },
-  {
-    key: 'Content-Security-Policy',
-    value: contentSecurityPolicy.join('; '),
   },
   {
     key: 'Permissions-Policy',
