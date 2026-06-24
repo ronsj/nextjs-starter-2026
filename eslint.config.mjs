@@ -39,5 +39,6 @@ export default defineConfig([
     'node_modules/**',
     'playwright-report/**',
     'next-env.d.ts',
+    'test-results/**',
   ]),
 ])
